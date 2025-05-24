@@ -52,6 +52,16 @@ class Auth extends CI_Controller
 
 	public function cek_login()
 	{
+
+		$identity = $this->input->post('identity');
+    $password = $this->input->post('password');
+
+    if ($this->ion_auth->login($identity, $password)) {
+        echo json_encode(['status' => true]);
+    } else {
+        echo json_encode(['status' => false, 'message' => $this->ion_auth->errors()]);
+    }
+		
 		$this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required|trim');
 		$this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required|trim');
 
